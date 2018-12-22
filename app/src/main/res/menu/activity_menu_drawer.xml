@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/add_note"
+            android:icon="@drawable/ic_add"
+            android:title="@string/create_new_note" />
+        <item
+            android:id="@+id/all_beacons"
+            android:icon="@drawable/ic_location_searching_black_24dp"
+            android:title="@string/view_all_beacons" />
+        <item
+            android:id="@+id/all_apps"
+            android:icon="@android:drawable/ic_menu_search"
+            android:title="@string/all_apps" />
+        <item
+            android:id="@+id/settings"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/settings" />
+    </group>
+
+</menu>

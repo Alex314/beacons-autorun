@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#383140</color>
+    <color name="colorPrimaryDark">#04030c</color>
+    <color name="colorAccent">#f4ed71</color>
+    <color name="colorLight">#cac7d7</color>
+    <color name="mainTextColor">#cac7d7</color>
+    <!--notes-->
+    <color name="beautifulGreen">#8a8604</color>
+    <color name="beautifulViolet">#a3586d</color>
+    <color name="beautifulDullBlue">#6a8a82</color>
+    <color name="beautifulDullDeepRed">#a7414a</color>
+
+
+</resources>
