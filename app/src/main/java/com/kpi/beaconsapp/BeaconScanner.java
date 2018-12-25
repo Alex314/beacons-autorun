@@ -1,21 +1,13 @@
 package com.kpi.beaconsapp;
 
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.media.RingtoneManager;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.kpi.beaconsapp.model.DataBaseEmulator;
-import com.kpi.beaconsapp.model.Note;
 import com.kpi.beaconsapp.model.Rule;
 
 import org.altbeacon.beacon.Beacon;
@@ -27,12 +19,9 @@ import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -200,7 +189,7 @@ public class BeaconScanner extends Service implements BeaconConsumer {
 
         for (Rule rule : DataBaseEmulator.getInstance().getRules()) {
             if (rule.getBeaconUUID().equals(beaconCode)) {
-                Intent launch = getPackageManager().getLaunchIntentForPackage(rule.getApp());
+                Intent launch = getPackageManager().getLaunchIntentForPackage(rule.getAppPackage());
                 startActivity(launch);
             }
         }

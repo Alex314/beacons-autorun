@@ -16,20 +16,20 @@ public class Rule {
 
     private String appName;
 
-    public String getApp() {
-        return app;
+    public String getAppPackage() {
+        return appPackage;
     }
 
-    private String app;
+    private String appPackage;
 
     public String getBeaconUUID() {
         return beaconUUID;
     }
 
-    public Rule(int id, String beaconUUID, String appName, String app){
+    public Rule(int id, String beaconUUID, String appName, String appPackage){
         this.id = id;
         this.beaconUUID = beaconUUID;
-        this.app = app;
+        this.appPackage = appPackage;
         this.appName = appName;
         this.name = "Rule";
     }

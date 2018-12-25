@@ -87,7 +87,7 @@ public class DataBaseControl implements DataBaseConnector {
 //
 //        }
         Log.d("TTT", Environment.getDataDirectory().getAbsolutePath());
-        String jdbcUrl = "jdbc:sqlite:" + "/data/data/" + MenuActivity.PACKAGE_NAME + "/traindb.db";
+        String jdbcUrl = "jdbc:sqlite:" + "/data/data/" + MenuActivity.PACKAGE_NAME + "/rulesdb.db";
         Log.d("path", jdbcUrl);
         try {
             Log.d("IN_MANAGER", "INSIDE");
@@ -106,14 +106,14 @@ public class DataBaseControl implements DataBaseConnector {
     }
 
     public final String path = "/data/data/" + MenuActivity.PACKAGE_NAME+"/";
-    public final String Name = "traindb.db";
+    public final String Name = "rulesdb.db";
 
     public void _copydatabase() throws IOException {
 
         OutputStream myOutput = new FileOutputStream(path + Name);
         byte[] buffer = new byte[1024];
         int length;
-        InputStream myInput = MenuActivity.CONTEXT.getAssets().open("traindb.db");
+        InputStream myInput = MenuActivity.CONTEXT.getAssets().open("rulesdb.db");
         while ((length = myInput.read(buffer)) > 0) {
             myOutput.write(buffer, 0, length);
         }

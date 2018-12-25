@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:appPackage="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -24,9 +24,9 @@
             android:layout_marginEnd="8dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionMode.Title"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            appPackage:layout_constraintEnd_toEndOf="parent"
+            appPackage:layout_constraintStart_toStartOf="parent"
+            appPackage:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/noteText"
@@ -38,10 +38,10 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.551"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/noteName" />
+            appPackage:layout_constraintEnd_toEndOf="parent"
+            appPackage:layout_constraintHorizontal_bias="0.551"
+            appPackage:layout_constraintStart_toStartOf="parent"
+            appPackage:layout_constraintTop_toBottomOf="@+id/noteName" />
 
         <TextView
             android:id="@+id/noteBeacons"
@@ -56,12 +56,12 @@
             android:textAllCaps="false"
             android:textAppearance="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Small"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/noteText"
-            app:layout_constraintVertical_bias="0.0"
+            appPackage:layout_constraintBottom_toBottomOf="parent"
+            appPackage:layout_constraintEnd_toEndOf="parent"
+            appPackage:layout_constraintHorizontal_bias="0.0"
+            appPackage:layout_constraintStart_toStartOf="parent"
+            appPackage:layout_constraintTop_toBottomOf="@+id/noteText"
+            appPackage:layout_constraintVertical_bias="0.0"
             tools:layout_alignParentTop="false" />
 
     </android.support.constraint.ConstraintLayout>

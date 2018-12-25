@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.kpi.beaconsapp.MenuActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DBRuleHandler extends SQLiteOpenHelper implements DataBaseConnector {
 
@@ -27,12 +26,13 @@ public class DBRuleHandler extends SQLiteOpenHelper implements DataBaseConnector
     private static final String KEY_ID = "id";
     private static final String KEY_BEACON_UUID = "beacon_uuid";
     private static final String KEY_APP_NAME = "app_name";
-    private static final String KEY_APP_FULL_NAME = "app_full_name";
+    private static final String KEY_APP_PACKAGE_NAME = "app_package_name";
+    private static final String KEY_DISTANCE_LIMIT = "distance_limit";
 
     // Beacons
     private static final String KEY_UUID = "uuid";
-    private static final String KEY_BEACON_NAME = "beacon_uuid";
-    private static final String KEY_BEACON_ADDRESS = "app_name";
+    private static final String KEY_BEACON_NAME = "name";
+    private static final String KEY_BEACON_DESC = "desc";
 
     public DBRuleHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -70,15 +70,29 @@ public class DBRuleHandler extends SQLiteOpenHelper implements DataBaseConnector
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_RULES + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_BEACON_UUID + " TEXT,"
-                + KEY_APP_NAME + " TEXT," + KEY_APP_FULL_NAME + " TEXT" + ");";
+//        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_RULES + "("
+//                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_BEACON_UUID + " TEXT,"
+//                + KEY_APP_NAME + " TEXT," + KEY_APP_PACKAGE_NAME + " TEXT" + ");";
+//
+//        String CREATE_BEACONS_TABLE = "CREATE TABLE " + TABLE_BEACONS + "("
+//                + KEY_UUID + "TEXT PRIMARY KEY,"
+//                + KEY_BEACON_NAME + "TEXT, " + KEY_BEACON_ADDRESS + " TEXT" + ");";
+        String CREATE_BEACONS_TABLE = "CREATE TABLE beacons (\n" +
+                "  uuid  TEXT NOT NULL PRIMARY KEY,\n" +
+                "  name  TEXT,\n" +
+                "  desc  TEXT\n" +
+                ");";
 
-        String CREATE_BEACONS_TABLE = "CREATE TABLE " + TABLE_BEACONS + "("
-                + KEY_UUID + "TEXT PRIMARY KEY,"
-                + KEY_BEACON_NAME + "TEXT, " + KEY_BEACON_ADDRESS + " TEXT" + ");";
+        String CREATE_RULES_TABLE = "CREATE TABLE rules (\n" +
+                "id  INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                "beacon_uuid  TEXT NOT NULL,\n" +
+                "app_package_name  TEXT NOT NULL,\n" +
+                "app_name  TEXT NOT NULL,\n" +
+                "distance_limit  REAL NOT NULL,\n" +
+                "FOREIGN KEY(beacon_uuid) REFERENCES beacons(uuid) on update cascade on delete cascade\n" +
+                ");";
 
-        db.execSQL(CREATE_CONTACTS_TABLE + CREATE_BEACONS_TABLE);
+        db.execSQL(CREATE_BEACONS_TABLE + CREATE_RULES_TABLE);
     }
 
     @Override
@@ -106,28 +120,27 @@ public class DBRuleHandler extends SQLiteOpenHelper implements DataBaseConnector
         else return null;
     }
 
-    // Adding new shop
     public void addRule(Rule rule) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(KEY_BEACON_UUID, rule.getBeaconUUID()); // Rule beacon uuid
         values.put(KEY_APP_NAME, rule.getAppName()); // Rule app name
-        values.put(KEY_APP_FULL_NAME, rule.getApp()); // Rule app full name
+        values.put(KEY_APP_PACKAGE_NAME, rule.getAppPackage()); // Rule app full name
+        values.put(KEY_DISTANCE_LIMIT, 10); // Rule app full name
 
         // Inserting Row
         db.insert(TABLE_RULES, null, values);
         db.close(); // Closing database connection
     }
 
-    // Adding new shop
     public void addBeacon(Beacon beacon) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_BEACON_UUID, beacon.getCode()); // Rule beacon uuid
-        values.put(KEY_BEACON_NAME, beacon.getName()); // Rule app name
-        values.put(KEY_BEACON_ADDRESS, beacon.getAddress()); // Rule app full name
+        values.put(KEY_UUID, beacon.getCode()); // beacon uuid
+        values.put(KEY_BEACON_NAME, beacon.getName()); // beacon name
+        values.put(KEY_BEACON_DESC, "Desc"); // Beacon description
 
         // Inserting Row
         db.insert(TABLE_BEACONS, null, values);
@@ -160,12 +173,11 @@ public class DBRuleHandler extends SQLiteOpenHelper implements DataBaseConnector
         this.beacons = beacons;
     }
 
-    // Getting one shop
     public Rule getRule(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_RULES, new String[]{KEY_ID,
-                        KEY_BEACON_UUID, KEY_APP_NAME, KEY_APP_FULL_NAME}, KEY_ID + "=?",
+                        KEY_BEACON_UUID, KEY_APP_NAME, KEY_APP_PACKAGE_NAME, KEY_DISTANCE_LIMIT}, KEY_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
@@ -176,7 +188,6 @@ public class DBRuleHandler extends SQLiteOpenHelper implements DataBaseConnector
                 cursor.getString(2),
                 cursor.getString(3)
         );
-        // return shop
         return rule;
     }
 

@@ -11,8 +11,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -38,14 +36,10 @@ import android.widget.Toast;
 import com.kpi.beaconsapp.model.Beacon;
 import com.kpi.beaconsapp.model.DBRuleHandler;
 import com.kpi.beaconsapp.model.DataBaseConnector;
-import com.kpi.beaconsapp.model.DataBaseControl;
-import com.kpi.beaconsapp.model.DataBaseEmulator;
-import com.kpi.beaconsapp.model.Note;
 import com.kpi.beaconsapp.model.Rule;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -115,7 +109,7 @@ public class MenuActivity extends AppCompatActivity
         List<Rule> rules = db2.getAllRules();
 
         for (Rule rule : rules) {
-            String log = "beaconUUId: " + rule.getBeaconUUID() + " ,Name: " + rule.getName() + " ,App name: " + rule.getAppName() + " ,AppFullName: " + rule.getApp();
+            String log = "beaconUUId: " + rule.getBeaconUUID() + " ,Name: " + rule.getName() + " ,App name: " + rule.getAppName() + " ,AppFullName: " + rule.getAppPackage();
             // Writing shops  to log
             Log.d("Rule: : ", log);
         }
@@ -290,7 +284,8 @@ public class MenuActivity extends AppCompatActivity
             startActivity(showAllApps);
 
         }else if (id == R.id.settings) {
-
+            showToast("Rules: " + db.getRules().size());
+//            showToast("Beacons: " + db.getBeacons().size());
             Intent settingsActivity = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivity(settingsActivity);
 
@@ -302,10 +297,10 @@ public class MenuActivity extends AppCompatActivity
     }
 
     private void showToast(String code){
-        final PackageManager pm = getPackageManager(); //get a list of installed apps.
-        List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
+//        final PackageManager pm = getPackageManager(); //get a list of installed apps.
+//        List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
 //        code = packages.get(1).packageName;
-        code = (String)pm.getApplicationLabel(packages.get(0));
+//        code = (String)pm.getApplicationLabel(packages.get(0));
         Toast.makeText(getApplicationContext(), code, Toast.LENGTH_SHORT).show();
 //        Intent launch = getPackageManager().getLaunchIntentForPackage(code);
 //        startActivity(launch);
