@@ -3,8 +3,6 @@ package com.kpi.beaconsapp;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,7 +30,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kpi.beaconsapp.model.Beacon;
 import com.kpi.beaconsapp.model.DBRuleHandler;
 import com.kpi.beaconsapp.model.DataBaseConnector;
 import com.kpi.beaconsapp.model.Rule;
@@ -42,7 +39,6 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class MenuActivity extends AppCompatActivity
@@ -55,26 +51,23 @@ public class MenuActivity extends AppCompatActivity
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
     static DataBaseConnector db;
     protected static final String TAG = "MonitoringActivity";
-    ListView notesView;
-    ListView beaconsView;
+//    ListView notesView;
+    ListView rulesView;
 //    NoteItemAdapter noteItemAdapter;
 //    BeaconItemAdapter beaconItemAdapter;
     RuleItemAdapter ruleItemAdapter;
-    int lastNote;
-    int lastRule;
+//    int lastRule;
     SharedPreferences preferences;
 
     private String path;
     private final String fileName = "rulesdb";
 
     private void _copydatabase() {
-
         try{
             File f = new File(path + fileName);
             if(f.exists() && !f.isDirectory()) {
                 return;
             }
-
 
             OutputStream myOutput = new FileOutputStream(path + fileName);
             byte[] buffer = new byte[1024];
@@ -116,13 +109,11 @@ public class MenuActivity extends AppCompatActivity
 
         db = DBRuleHandler.getInstance();
 
-//        createNotificationChannel();
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        staerIntroActivitu();
+        startActivity();
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -147,31 +138,17 @@ public class MenuActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        TextView userNameView = navigationView.getHeaderView(0).findViewById(R.id.user_name_view);
-        userNameView.setText(preferences.getString("user_name", "User"));
+//        TextView userNameView = navigationView.getHeaderView(0).findViewById(R.id.user_name_view);
+//        userNameView.setText(preferences.getString("user_name", "User"));
 
-        //відображаємо список усіх нотаток, вішаємо на них екшен - відкрити актівіті нотатки
-//        beaconsView = findViewById(R.id.notesView) ;
-////        setContentView(R.layout.all_beacond_activity);
-//        //відображаємо список усіх біконів
-//        ListView allBeaconsView =  findViewById(R.id.all_beacons_list) ;
-//        BeaconItemAdapter beaconItemAdapter = new BeaconItemAdapter(this, db.getBeacons());
-//        allBeaconsView.setAdapter(beaconItemAdapter);
-//
-//        notesView = beaconsView;
-//        notesView = findViewById(R.id.notesView) ;
-        beaconsView = findViewById(R.id.notesView) ;
-//        noteItemAdapter = new NoteItemAdapter(this, db.getNotes());
+        rulesView = findViewById(R.id.notesView) ;
         ruleItemAdapter = new RuleItemAdapter(this, db.getRules());
-//        notesView.setAdapter(noteItemAdapter);
-        beaconsView.setAdapter(ruleItemAdapter);
+        rulesView.setAdapter(ruleItemAdapter);
 
-        beaconsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        rulesView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent addRule = new Intent(getApplicationContext(), RuleActivity.class);
-                lastRule = i;
-                addRule.putExtra("com.kpi.beaconsapp.NOTE_ID", db.getRules().size() -1 - i);
                 startActivity(addRule);
             }
         });
@@ -202,17 +179,10 @@ public class MenuActivity extends AppCompatActivity
                 }
             };
             thread.start();
-//            Intent startServiceIntent = new Intent(MenuActivity.this, BeaconScanner.class);
-//            startService(startServiceIntent);
         }
+    }
 
-        }
-
-
-
-
-    private void staerIntroActivitu(){
-
+    private void startActivity(){
         //  Declare a new thread to do a preference check
         Thread t = new Thread(new Runnable() {
             @Override
@@ -223,11 +193,6 @@ public class MenuActivity extends AppCompatActivity
 
                 //  If the activity has never started before...
                 if (isFirstStart) {
-
-                    //  Launch app intro
-//                    Intent i = new Intent(MenuActivity.this, IntroActivity.class);
-//                    startActivity(i);
-
                     //  Make a new preferences editor
                     SharedPreferences.Editor e = preferences.edit();
 
@@ -242,8 +207,6 @@ public class MenuActivity extends AppCompatActivity
 
         // Start the thread
         t.start();
-
-
     }
 
     @Override
@@ -263,25 +226,22 @@ public class MenuActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.add_note) {
-            lastNote = 0;
-            Intent showNoteDetail = new Intent(getApplicationContext(), NoteDetailsActivity.class);
-            showNoteDetail.putExtra("com.kpi.beaconsapp.NOTE_ID", db.getNewNoteId());
-            startActivity(showNoteDetail);
+            Intent chooseBeacon = new Intent(getApplicationContext(), AllBeaconsActivity.class);
+            chooseBeacon.putExtra("com.kpi.beaconsapp.action", "addRule");
+            startActivity(chooseBeacon);
         } else if (id == R.id.all_beacons) {
             Intent showAllBeacons = new Intent(getApplicationContext(), AllBeaconsActivity.class);
+            showAllBeacons.putExtra("com.kpi.beaconsapp.action", "show");
             startActivity(showAllBeacons);
         }
         else if (id == R.id.all_apps) {
-
             Intent showAllApps = new Intent(getApplicationContext(), AllAppsActivity.class);
+            showAllApps.putExtra("com.kpi.beaconsapp.action", "show");
             startActivity(showAllApps);
 
         }else if (id == R.id.settings) {
-            showToast("Rules: " + db.getRules().size());
-//            showToast("Beacons: " + db.getBeacons().size());
             Intent settingsActivity = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivity(settingsActivity);
-
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -289,14 +249,8 @@ public class MenuActivity extends AppCompatActivity
         return true;
     }
 
-    private void showToast(String code){
-//        final PackageManager pm = getPackageManager(); //get a list of installed apps.
-//        List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
-//        code = packages.get(1).packageName;
-//        code = (String)pm.getApplicationLabel(packages.get(0));
-        Toast.makeText(getApplicationContext(), code, Toast.LENGTH_SHORT).show();
-//        Intent launch = getPackageManager().getLaunchIntentForPackage(code);
-//        startActivity(launch);
+    private void showToast(String message){
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -305,78 +259,9 @@ public class MenuActivity extends AppCompatActivity
         TextView userNameView = ((NavigationView)findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.user_name_view);
         userNameView.setText(PreferenceManager.getDefaultSharedPreferences(this).getString("user_name", "User"));
 
-//        notesView = findViewById(R.id.notesView) ;
-//        noteItemAdapter = new NoteItemAdapter(this, db.getNotes());
-//        notesView.setAdapter(noteItemAdapter);
-//        notesView.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                notesView.smoothScrollToPosition(lastNote+1);
-//            }
-//        });
-
-//        createNotificationChannel();
-    }
-
-//    class NoteItemAdapter extends BaseAdapter {
-//
-//        private LayoutInflater layoutInflater;
-//        private ArrayList<Note> notes;
-//        private int size;
-//
-//        NoteItemAdapter(Context context, ArrayList<Note> notes) {
-//            this.size = notes.size();
-//            this.layoutInflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
-//            this.notes = notes;
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return notes.size();
-//        }
-//
-//        @Override
-//        public Object getItem(int i) {
-//            return notes.get(i);
-//        }
-//
-//        @Override
-//        public long getItemId(int i) {
-//            return notes.get(i).getId();
-//        }
-//
-//        @SuppressLint({"ViewHolder", "InflateParams"})
-//        @Override
-//        public View getView(int i, View view, ViewGroup viewGroup) {
-//            Note note = notes.get(size - 1 - i);
-//            view = layoutInflater.inflate(R.layout.note_item_layout, null);
-//            view.setBackgroundColor(Color.parseColor(note.getColor()));
-//
-//            TextView noteName = view.findViewById(R.id.noteName);
-//            TextView noteText = view.findViewById(R.id.noteText);
-//            TextView noteBeacons = view.findViewById(R.id.noteBeacons);
-//
-//            noteName.setText(note.getName());
-//            noteText.setText(note.getText());
-//            noteBeacons.setText(note.getBeaconsNames());
-//            return view;
-//        }
-//    }
-
-    private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "notificationChannel";
-            String description = "for notes and beacons";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("CHANNEL_ID", name, importance);
-            channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
+        rulesView = findViewById(R.id.notesView) ;
+        ruleItemAdapter = new RuleItemAdapter(this, db.getRules());
+        rulesView.setAdapter(ruleItemAdapter);
     }
 
 

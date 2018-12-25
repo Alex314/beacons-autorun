@@ -19,6 +19,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kpi.beaconsapp.model.DBRuleHandler;
+import com.kpi.beaconsapp.model.Rule;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -60,7 +63,9 @@ public class AllAppsActivity extends AppCompatActivity {
             allAppsView.setOnItemClickListener((adapterView, view, i, l) -> {
                 Toast.makeText(getApplicationContext(), "app " + i, Toast.LENGTH_SHORT).show();
                 String packageName = app_code.get(apps.get(i));
-                int beaconId = getIntent().getIntExtra("com.kpi.beaconsapp.chosenBeacon", 0);
+                String beaconId = getIntent().getStringExtra("com.kpi.beaconsapp.chosenBeacon");
+                Rule r = new Rule(0, beaconId, apps.get(i), packageName);
+                DBRuleHandler.getInstance().addRule(r);
                 finish();
             });
 

@@ -42,8 +42,9 @@ public class AllBeaconsActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "beacon " + i, Toast.LENGTH_SHORT).show();
                     Intent chooseApp = new Intent(getApplicationContext(), AllAppsActivity.class);
                     chooseApp.putExtra("com.kpi.beaconsapp.action", "addRule");
-                    chooseApp.putExtra("com.kpi.beaconsapp.chosenBeacon", i);
+                    chooseApp.putExtra("com.kpi.beaconsapp.chosenBeacon", db.getBeacons().get(i).getCode());
                     startActivity(chooseApp);
+                    finish();
                 }
             });
 
