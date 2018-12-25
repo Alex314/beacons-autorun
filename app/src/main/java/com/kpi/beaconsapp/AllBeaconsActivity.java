@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.kpi.beaconsapp.model.Beacon;
+import com.kpi.beaconsapp.model.DBRuleHandler;
 import com.kpi.beaconsapp.model.DataBaseConnector;
 import com.kpi.beaconsapp.model.DataBaseEmulator;
 import com.kpi.beaconsapp.model.Note;
@@ -26,7 +27,7 @@ import com.kpi.beaconsapp.model.Note;
 import java.util.ArrayList;
 
 public class AllBeaconsActivity extends AppCompatActivity {
-    DataBaseConnector db = DataBaseEmulator.getInstance();
+    DataBaseConnector db = DBRuleHandler.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
