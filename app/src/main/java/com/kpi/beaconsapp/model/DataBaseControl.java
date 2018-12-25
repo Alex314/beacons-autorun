@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.kpi.beaconsapp.MenuActivity;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,13 +15,6 @@ import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-
-import java.net.NetworkInterface;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -87,7 +79,7 @@ public class DataBaseControl implements DataBaseConnector {
 //
 //        }
         Log.d("TTT", Environment.getDataDirectory().getAbsolutePath());
-        String jdbcUrl = "jdbc:sqlite:" + "/data/data/" + MenuActivity.PACKAGE_NAME + "/rulesdb.db";
+        String jdbcUrl = "jdbc:sqlite:" + "/data/data/" + MenuActivity.PACKAGE_NAME + "/rulesdb";
         Log.d("path", jdbcUrl);
         try {
             Log.d("IN_MANAGER", "INSIDE");
@@ -106,14 +98,14 @@ public class DataBaseControl implements DataBaseConnector {
     }
 
     public final String path = "/data/data/" + MenuActivity.PACKAGE_NAME+"/";
-    public final String Name = "rulesdb.db";
+    public final String Name = "rulesdb";
 
     public void _copydatabase() throws IOException {
 
         OutputStream myOutput = new FileOutputStream(path + Name);
         byte[] buffer = new byte[1024];
         int length;
-        InputStream myInput = MenuActivity.CONTEXT.getAssets().open("rulesdb.db");
+        InputStream myInput = MenuActivity.CONTEXT.getAssets().open("rulesdb");
         while ((length = myInput.read(buffer)) > 0) {
             myOutput.write(buffer, 0, length);
         }

@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -64,8 +63,8 @@ public class MenuActivity extends AppCompatActivity
     int lastRule;
     SharedPreferences preferences;
 
-    private final String path = "/data/data/" + MenuActivity.PACKAGE_NAME+"/databases/";
-    private final String fileName = "rulesdb.db";
+    private String path;
+    private final String fileName = "rulesdb";
 
     private void _copydatabase() {
 
@@ -96,7 +95,7 @@ public class MenuActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         CONTEXT = getApplicationContext();
-
+        path = "/data/data/" + getApplicationContext().getPackageName()+"/databases/";
         _copydatabase();
 
 //-------------------------------------------------------------

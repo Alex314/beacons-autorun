@@ -77,22 +77,22 @@ public class DBRuleHandler extends SQLiteOpenHelper implements DataBaseConnector
 //        String CREATE_BEACONS_TABLE = "CREATE TABLE " + TABLE_BEACONS + "("
 //                + KEY_UUID + "TEXT PRIMARY KEY,"
 //                + KEY_BEACON_NAME + "TEXT, " + KEY_BEACON_ADDRESS + " TEXT" + ");";
-        String CREATE_BEACONS_TABLE = "CREATE TABLE beacons (\n" +
-                "  uuid  TEXT NOT NULL PRIMARY KEY,\n" +
-                "  name  TEXT,\n" +
-                "  desc  TEXT\n" +
-                ");";
-
-        String CREATE_RULES_TABLE = "CREATE TABLE rules (\n" +
-                "id  INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                "beacon_uuid  TEXT NOT NULL,\n" +
-                "app_package_name  TEXT NOT NULL,\n" +
-                "app_name  TEXT NOT NULL,\n" +
-                "distance_limit  REAL NOT NULL,\n" +
-                "FOREIGN KEY(beacon_uuid) REFERENCES beacons(uuid) on update cascade on delete cascade\n" +
-                ");";
-
-        db.execSQL(CREATE_BEACONS_TABLE + CREATE_RULES_TABLE);
+//        String CREATE_BEACONS_TABLE = "CREATE TABLE beacons (\n" +
+//                "  uuid  TEXT NOT NULL PRIMARY KEY,\n" +
+//                "  name  TEXT,\n" +
+//                "  desc  TEXT\n" +
+//                ");";
+//
+//        String CREATE_RULES_TABLE = "CREATE TABLE rules (\n" +
+//                "id  INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+//                "beacon_uuid  TEXT NOT NULL,\n" +
+//                "app_package_name  TEXT NOT NULL,\n" +
+//                "app_name  TEXT NOT NULL,\n" +
+//                "distance_limit  REAL NOT NULL,\n" +
+//                "FOREIGN KEY(beacon_uuid) REFERENCES beacons(uuid) on update cascade on delete cascade\n" +
+//                ");";
+//
+//        db.execSQL(CREATE_BEACONS_TABLE + CREATE_RULES_TABLE);
     }
 
     @Override
