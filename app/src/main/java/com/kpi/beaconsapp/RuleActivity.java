@@ -50,6 +50,7 @@ public class RuleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.all_apps_activity);
+        setTitle("Choose beacon");
 
         rule_id = getIntent().getIntExtra("com.example.bogdanaiurchienko.myapplication.NOTE_ID", 0);
         beacon = db.getBeacons().get(rule_id);

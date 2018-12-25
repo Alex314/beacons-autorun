@@ -78,7 +78,7 @@ public class ListViewItemCheckboxBaseAdapter extends BaseAdapter {
         ListViewItemDTO listViewItemDto = listViewItemDtoList.get(itemIndex);
         viewHolder.getItemCheckbox().setChecked(listViewItemDto.isChecked());
         viewHolder.getBeaconName().setText(listViewItemDto.getBeacon().getName());
-        viewHolder.getBeaconAddress().setText(listViewItemDto.getBeacon().getAddress());
+        viewHolder.getBeaconAddress().setText(listViewItemDto.getBeacon().getDescription());
         viewHolder.getBeaconCode().setText(listViewItemDto.getBeacon().getCode());
 
         return convertView;

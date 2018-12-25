@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -51,11 +52,28 @@ public class AllAppsActivity extends AppCompatActivity {
         AllAppsActivity.AppItemAdapter appItemAdapter = new AllAppsActivity.AppItemAdapter(this, apps);
         allAppsView.setAdapter(appItemAdapter);
 
-        allAppsView.setOnItemClickListener((adapterView, view, i, l) -> {
-            String packageName = app_code.get(apps.get(i));
-            Intent launch = getPackageManager().getLaunchIntentForPackage(packageName);
-            startActivity(launch);
-        });
+        String action = getIntent().getStringExtra("com.kpi.beaconsapp.action");
+
+        if (action.equals("addRule")) {
+            setTitle("Choose application for new rule");
+
+            allAppsView.setOnItemClickListener((adapterView, view, i, l) -> {
+                Toast.makeText(getApplicationContext(), "app " + i, Toast.LENGTH_SHORT).show();
+                String packageName = app_code.get(apps.get(i));
+                int beaconId = getIntent().getIntExtra("com.kpi.beaconsapp.chosenBeacon", 0);
+                finish();
+            });
+
+        }
+        else{
+            allAppsView.setOnItemClickListener((adapterView, view, i, l) -> {
+                String packageName = app_code.get(apps.get(i));
+                Intent launch = getPackageManager().getLaunchIntentForPackage(packageName);
+                startActivity(launch);
+            });
+        }
+
+
     }
 
     class AppItemAdapter extends BaseAdapter {

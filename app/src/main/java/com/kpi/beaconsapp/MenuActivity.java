@@ -114,34 +114,27 @@ public class MenuActivity extends AppCompatActivity
 //            Log.d("Rule: : ", log);
 //        }
 
-//--------------------------------------------------
-//
-//
-//        Log.d("GG","BEFORE");
-//        PACKAGE_NAME = getPackageName();
-//
-//        Log.d("GG","AFTER");
-//        Log.d("GG",PACKAGE_NAME);
-//
         db = DBRuleHandler.getInstance();
 
-        createNotificationChannel();
+//        createNotificationChannel();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         staerIntroActivitu();
-        
-        //кнопка створення нової нотатки
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                lastNote = 0;
-                Intent showNoteDetail = new Intent(getApplicationContext(), NoteDetailsActivity.class);
-                showNoteDetail.putExtra("com.kpi.beaconsapp.NOTE_ID", db.getNewNoteId());
-                startActivity(showNoteDetail);
+                Intent chooseBeacon = new Intent(getApplicationContext(), AllBeaconsActivity.class);
+                chooseBeacon.putExtra("com.kpi.beaconsapp.action", "addRule");
+                startActivity(chooseBeacon);
+//                lastNote = 0;
+//                Intent showNoteDetail = new Intent(getApplicationContext(), NoteDetailsActivity.class);
+//                showNoteDetail.putExtra("com.kpi.beaconsapp.NOTE_ID", db.getNewNoteId());
+//                startActivity(showNoteDetail);
             }
         });
 
@@ -322,7 +315,7 @@ public class MenuActivity extends AppCompatActivity
 //            }
 //        });
 
-        createNotificationChannel();
+//        createNotificationChannel();
     }
 
 //    class NoteItemAdapter extends BaseAdapter {
@@ -411,49 +404,6 @@ public class MenuActivity extends AppCompatActivity
             }
         }
     }
-
-//    class BeaconItemAdapter extends BaseAdapter {
-//
-//        private LayoutInflater layoutInflater;
-//        private ArrayList<Beacon> beacons;
-//
-//        BeaconItemAdapter(Context context, ArrayList<Beacon> beacons) {
-//            this.layoutInflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
-//            this.beacons = beacons;
-//        }
-//
-//
-//        @Override
-//        public int getCount() {
-//            return beacons.size();
-//        }
-//
-//        @Override
-//        public Object getItem(int i) {
-//            return beacons.get(i);
-//        }
-//
-//        @Override
-//        public long getItemId(int i) {
-//            return beacons.get(i).getId();
-//        }
-//
-//        @SuppressLint({"ViewHolder", "InflateParams"})
-//        @Override
-//        public View getView(int i, View view, ViewGroup viewGroup) {
-//            view = layoutInflater.inflate(R.layout.beacon_list_item_layout, null);
-//
-//            TextView beaconName = view.findViewById(R.id.beaconNameView);
-//            TextView beaconAddress = view.findViewById(R.id.beaconAddressView);
-//            TextView beaconCode = view.findViewById(R.id.beaconCodeView);
-//
-//            Beacon beacon =  beacons.get(i);
-//            beaconName.setText(beacon.getName());
-//            beaconAddress.setText(beacon.getAddress());
-//            beaconCode.setText(beacon.getCode());
-//            return view;
-//        }
-//    }
 
     class RuleItemAdapter extends BaseAdapter {
 

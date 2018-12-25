@@ -5,14 +5,14 @@ import java.util.Objects;
 public class Beacon {
     private long id;
     private String name;
-    private String address;
+    private String description;
     private String code;
 
 
-    public Beacon(long id, String name, String address, String code) {
+    public Beacon(long id, String name, String description, String code) {
         this.id = id;
         this.name = name;
-        this.address = address;
+        this.description = description;
         this.code = code;
     }
 
@@ -24,8 +24,8 @@ public class Beacon {
         return name;
     }
 
-    public String getAddress() {
-        return address;
+    public String getDescription() {
+        return description;
     }
 
     public String getCode() {

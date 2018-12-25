@@ -178,9 +178,9 @@ public class DBRuleHandler extends SQLiteOpenHelper implements DataBaseConnector
             do {
                 Beacon rule = new Beacon(
                         0,
-                        cursor.getString(0),
                         cursor.getString(1),
-                        cursor.getString(2)
+                        cursor.getString(2),
+                        cursor.getString(0)
                 );
                 // Adding contact to list
                 shopList.add(rule);
@@ -258,7 +258,7 @@ public class DBRuleHandler extends SQLiteOpenHelper implements DataBaseConnector
 //
 //        ContentValues values = new ContentValues();
 //        values.put(KEY_NAME, shop.getName());
-//        values.put(KEY_SH_ADDR, shop.getAddress());
+//        values.put(KEY_SH_ADDR, shop.getDescription());
 //
 //        // updating row
 //        return db.update(TABLE_RULES, values, KEY_ID + " = ?",

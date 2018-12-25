@@ -7,6 +7,7 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.kpi.beaconsapp.model.DBRuleHandler;
 import com.kpi.beaconsapp.model.DataBaseEmulator;
 import com.kpi.beaconsapp.model.Rule;
 
@@ -187,7 +188,7 @@ public class BeaconScanner extends Service implements BeaconConsumer {
 
     private void showNotifications(String beaconCode) {
 
-        for (Rule rule : DataBaseEmulator.getInstance().getRules()) {
+        for (Rule rule : DBRuleHandler.getInstance().getRules()) {
             if (rule.getBeaconUUID().equals(beaconCode)) {
                 Intent launch = getPackageManager().getLaunchIntentForPackage(rule.getAppPackage());
                 startActivity(launch);
