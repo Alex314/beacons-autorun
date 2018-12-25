@@ -208,8 +208,8 @@ public class DBRuleHandler extends SQLiteOpenHelper implements DataBaseConnector
         Rule rule = new Rule(Integer.parseInt(
                 cursor.getString(0)),
                 cursor.getString(1),
-                cursor.getString(2),
-                cursor.getString(3)
+                cursor.getString(3),
+                cursor.getString(2)
         );
         return rule;
     }
@@ -229,8 +229,8 @@ public class DBRuleHandler extends SQLiteOpenHelper implements DataBaseConnector
                 Rule rule = new Rule(
                     Integer.parseInt(cursor.getString(0)),
                     cursor.getString(1),
-                    cursor.getString(2),
-                    cursor.getString(3)
+                    cursor.getString(3),
+                    cursor.getString(2)
                 );
                 // Adding contact to list
                 shopList.add(rule);

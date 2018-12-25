@@ -58,7 +58,8 @@ public class MenuActivity extends AppCompatActivity
     ListView notesView;
     ListView beaconsView;
 //    NoteItemAdapter noteItemAdapter;
-    BeaconItemAdapter beaconItemAdapter;
+//    BeaconItemAdapter beaconItemAdapter;
+    RuleItemAdapter ruleItemAdapter;
     int lastNote;
     int lastRule;
     SharedPreferences preferences;
@@ -168,9 +169,9 @@ public class MenuActivity extends AppCompatActivity
 //        notesView = findViewById(R.id.notesView) ;
         beaconsView = findViewById(R.id.notesView) ;
 //        noteItemAdapter = new NoteItemAdapter(this, db.getNotes());
-        beaconItemAdapter = new BeaconItemAdapter(this, db.getBeacons());
+        ruleItemAdapter = new RuleItemAdapter(this, db.getRules());
 //        notesView.setAdapter(noteItemAdapter);
-        beaconsView.setAdapter(beaconItemAdapter);
+        beaconsView.setAdapter(ruleItemAdapter);
 
         beaconsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -411,45 +412,88 @@ public class MenuActivity extends AppCompatActivity
         }
     }
 
-    class BeaconItemAdapter extends BaseAdapter {
+//    class BeaconItemAdapter extends BaseAdapter {
+//
+//        private LayoutInflater layoutInflater;
+//        private ArrayList<Beacon> beacons;
+//
+//        BeaconItemAdapter(Context context, ArrayList<Beacon> beacons) {
+//            this.layoutInflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+//            this.beacons = beacons;
+//        }
+//
+//
+//        @Override
+//        public int getCount() {
+//            return beacons.size();
+//        }
+//
+//        @Override
+//        public Object getItem(int i) {
+//            return beacons.get(i);
+//        }
+//
+//        @Override
+//        public long getItemId(int i) {
+//            return beacons.get(i).getId();
+//        }
+//
+//        @SuppressLint({"ViewHolder", "InflateParams"})
+//        @Override
+//        public View getView(int i, View view, ViewGroup viewGroup) {
+//            view = layoutInflater.inflate(R.layout.beacon_list_item_layout, null);
+//
+//            TextView beaconName = view.findViewById(R.id.beaconNameView);
+//            TextView beaconAddress = view.findViewById(R.id.beaconAddressView);
+//            TextView beaconCode = view.findViewById(R.id.beaconCodeView);
+//
+//            Beacon beacon =  beacons.get(i);
+//            beaconName.setText(beacon.getName());
+//            beaconAddress.setText(beacon.getAddress());
+//            beaconCode.setText(beacon.getCode());
+//            return view;
+//        }
+//    }
+
+    class RuleItemAdapter extends BaseAdapter {
 
         private LayoutInflater layoutInflater;
-        private ArrayList<Beacon> beacons;
+        private ArrayList<Rule> rules;
 
-        BeaconItemAdapter(Context context, ArrayList<Beacon> beacons) {
+        RuleItemAdapter(Context context, ArrayList<Rule> rules) {
             this.layoutInflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
-            this.beacons = beacons;
+            this.rules = rules;
         }
 
 
         @Override
         public int getCount() {
-            return beacons.size();
+            return rules.size();
         }
 
         @Override
         public Object getItem(int i) {
-            return beacons.get(i);
+            return rules.get(i);
         }
 
         @Override
         public long getItemId(int i) {
-            return beacons.get(i).getId();
+            return i;
         }
 
         @SuppressLint({"ViewHolder", "InflateParams"})
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            view = layoutInflater.inflate(R.layout.beacon_list_item_layout, null);
+            view = layoutInflater.inflate(R.layout.rule_list_item_layout, null);
 
-            TextView beaconName = view.findViewById(R.id.beaconNameView);
-            TextView beaconAddress = view.findViewById(R.id.beaconAddressView);
-            TextView beaconCode = view.findViewById(R.id.beaconCodeView);
+            TextView ruleName = view.findViewById(R.id.ruleNameView);
+            TextView beaconName = view.findViewById(R.id.ruleBeaconName);
+            TextView appName = view.findViewById(R.id.ruleAppName);
 
-            Beacon beacon =  beacons.get(i);
-            beaconName.setText(beacon.getName());
-            beaconAddress.setText(beacon.getAddress());
-            beaconCode.setText(beacon.getCode());
+            Rule rule =  rules.get(i);
+            ruleName.setText(rule.getName());
+            beaconName.setText(rule.getBeaconUUID());
+            appName.setText(rule.getAppName());
             return view;
         }
     }
