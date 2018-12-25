@@ -36,18 +36,18 @@ public class DBRuleHandler extends SQLiteOpenHelper implements DataBaseConnector
 
     public DBRuleHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-
-
-        beacons.add(new Beacon(0, "me", "portable", "6d6b3e4a-9e0a-4ac4-9f42-bdd719850590"));
-        beacons.add(new Beacon(1, "Alex", "portable", "3af70a12-9856-47eb-9050-2b3691ac157b"));
-        beacons.add(new Beacon(2, "Comp", "portable", "e20a39f4-73f5-4bc4-a12f-17d1ad07a961"));
-        beacons.add(new Beacon(3, "door", "main door", "1d6dea35-aa00-4c9b-bcc9-114d6ce98eea"));
-        beacons.add(new Beacon(4, "Olya", "portable", "8dfe9950-7efe-46b2-ac80-6e739bbc9c01"));
-
-        addRule(new Rule(0, beacons.get(4).getCode(), "Google", "com.google.android.googlequicksearchbox"));
-        addRule(new Rule(1, beacons.get(3).getCode(), "Telegram", "org.telegram.messenger"));
-        addRule(new Rule(2, beacons.get(1).getCode(), "Google", "com.google.android.googlequicksearchbox"));
-        addRule(new Rule(3, beacons.get(4).getCode(), "Telegram", "org.telegram.messenger"));
+//
+//
+//        beacons.add(new Beacon(0, "me", "portable", "6d6b3e4a-9e0a-4ac4-9f42-bdd719850590"));
+//        beacons.add(new Beacon(1, "Alex", "portable", "3af70a12-9856-47eb-9050-2b3691ac157b"));
+//        beacons.add(new Beacon(2, "Comp", "portable", "e20a39f4-73f5-4bc4-a12f-17d1ad07a961"));
+//        beacons.add(new Beacon(3, "door", "main door", "1d6dea35-aa00-4c9b-bcc9-114d6ce98eea"));
+//        beacons.add(new Beacon(4, "Olya", "portable", "8dfe9950-7efe-46b2-ac80-6e739bbc9c01"));
+//
+//        addRule(new Rule(0, beacons.get(4).getCode(), "Google", "com.google.android.googlequicksearchbox"));
+//        addRule(new Rule(1, beacons.get(3).getCode(), "Telegram", "org.telegram.messenger"));
+//        addRule(new Rule(2, beacons.get(1).getCode(), "Google", "com.google.android.googlequicksearchbox"));
+//        addRule(new Rule(3, beacons.get(4).getCode(), "Telegram", "org.telegram.messenger"));
 
     }
 
