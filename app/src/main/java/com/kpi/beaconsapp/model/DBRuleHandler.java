@@ -36,7 +36,8 @@ public class DBRuleHandler extends SQLiteOpenHelper implements DataBaseConnector
 
     public DBRuleHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-//
+
+//        beacons = getBeacons();
 //
 //        beacons.add(new Beacon(0, "me", "portable", "6d6b3e4a-9e0a-4ac4-9f42-bdd719850590"));
 //        beacons.add(new Beacon(1, "Alex", "portable", "3af70a12-9856-47eb-9050-2b3691ac157b"));
@@ -165,7 +166,29 @@ public class DBRuleHandler extends SQLiteOpenHelper implements DataBaseConnector
 
     @Override
     public ArrayList<Beacon> getBeacons() {
-        return beacons;
+        ArrayList<Beacon> shopList = new ArrayList<Beacon>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_BEACONS;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Beacon rule = new Beacon(
+                        0,
+                        cursor.getString(0),
+                        cursor.getString(1),
+                        cursor.getString(2)
+                );
+                // Adding contact to list
+                shopList.add(rule);
+            } while (cursor.moveToNext());
+        }
+
+        // return contact list
+        return shopList;
     }
 
     @Override

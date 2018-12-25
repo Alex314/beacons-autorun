@@ -100,18 +100,18 @@ public class MenuActivity extends AppCompatActivity
 
 //-------------------------------------------------------------
 
-        DBRuleHandler db2 = new DBRuleHandler(this);
-
-        Log.d("rule handler created", "creatersd");
-
-        db2.addRule(new Rule(0,  "6d6b3e4a-9e0a-4ac4-9f42-bdd719850590", "Google", "com.google.android.googlequicksearchbox"));
-        List<Rule> rules = db2.getAllRules();
-
-        for (Rule rule : rules) {
-            String log = "beaconUUId: " + rule.getBeaconUUID() + " ,Name: " + rule.getName() + " ,App name: " + rule.getAppName() + " ,AppFullName: " + rule.getAppPackage();
-            // Writing shops  to log
-            Log.d("Rule: : ", log);
-        }
+//        DBRuleHandler db2 = new DBRuleHandler(this);
+//
+//        Log.d("rule handler created", "creatersd");
+//
+//        db2.addRule(new Rule(0,  "6d6b3e4a-9e0a-4ac4-9f42-bdd719850590", "Google", "com.google.android.googlequicksearchbox"));
+//        List<Rule> rules = db2.getAllRules();
+//
+//        for (Rule rule : rules) {
+//            String log = "beaconUUId: " + rule.getBeaconUUID() + " ,Name: " + rule.getName() + " ,App name: " + rule.getAppName() + " ,AppFullName: " + rule.getAppPackage();
+//            // Writing shops  to log
+//            Log.d("Rule: : ", log);
+//        }
 
 //--------------------------------------------------
 //
