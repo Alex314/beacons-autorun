@@ -8,7 +8,6 @@ public class Beacon {
     private String description;
     private String code;
 
-
     public Beacon(long id, String name, String description, String code) {
         this.id = id;
         this.name = name;
@@ -40,7 +39,6 @@ public class Beacon {
         return Objects.equals(code, beacon.code);
     }
 
-
     public long getId() {
         return id;
     }
@@ -54,5 +52,4 @@ public class Beacon {
 
         return Objects.hash(code);
     }
-    
 }

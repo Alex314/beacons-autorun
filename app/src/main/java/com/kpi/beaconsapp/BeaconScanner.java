@@ -8,7 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.kpi.beaconsapp.model.DBRuleHandler;
-import com.kpi.beaconsapp.model.DataBaseEmulator;
+//import com.kpi.beaconsapp.model.DataBaseEmulator;
 import com.kpi.beaconsapp.model.Rule;
 
 import org.altbeacon.beacon.Beacon;

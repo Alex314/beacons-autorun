@@ -64,7 +64,7 @@ public class AllAppsActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "app " + i, Toast.LENGTH_SHORT).show();
                 String packageName = app_code.get(apps.get(i));
                 String beaconId = getIntent().getStringExtra("com.kpi.beaconsapp.chosenBeacon");
-                Rule r = new Rule(0, beaconId, apps.get(i), packageName);
+                Rule r = new Rule(0, "Rule", beaconId, apps.get(i), packageName, 10);
                 DBRuleHandler.getInstance().addRule(r);
                 finish();
             });

@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-<item android:id="@+id/set_beacons"
-    android:title="ADD"
-    android:icon="@drawable/ic_add" />
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/save_rule"
+        android:icon="@android:drawable/ic_menu_save"
+        android:title="Save" />
+    <item
+        android:id="@+id/delete_rule"
+        android:icon="@drawable/ic_delete_black_24dp"
+        android:title="Remove" />
 </menu>

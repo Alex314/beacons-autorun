@@ -92,21 +92,6 @@ public class MenuActivity extends AppCompatActivity
         path = "/data/data/" + getApplicationContext().getPackageName()+"/databases/";
         _copydatabase();
 
-//-------------------------------------------------------------
-
-//        DBRuleHandler db2 = new DBRuleHandler(this);
-//
-//        Log.d("rule handler created", "creatersd");
-//
-//        db2.addRule(new Rule(0,  "6d6b3e4a-9e0a-4ac4-9f42-bdd719850590", "Google", "com.google.android.googlequicksearchbox"));
-//        List<Rule> rules = db2.getAllRules();
-//
-//        for (Rule rule : rules) {
-//            String log = "beaconUUId: " + rule.getBeaconUUID() + " ,Name: " + rule.getName() + " ,App name: " + rule.getAppName() + " ,AppFullName: " + rule.getAppPackage();
-//            // Writing shops  to log
-//            Log.d("Rule: : ", log);
-//        }
-
         db = DBRuleHandler.getInstance();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -148,8 +133,9 @@ public class MenuActivity extends AppCompatActivity
         rulesView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent addRule = new Intent(getApplicationContext(), RuleActivity.class);
-                startActivity(addRule);
+                Intent editRule = new Intent(getApplicationContext(), NoteDetailsActivity.class);
+                editRule.putExtra("com.kpi.beaconsapp.ruleid", i);
+                startActivity(editRule);
             }
         });
 
@@ -256,9 +242,6 @@ public class MenuActivity extends AppCompatActivity
     @Override
     protected void onRestart() {
         super.onRestart();
-        TextView userNameView = ((NavigationView)findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.user_name_view);
-        userNameView.setText(PreferenceManager.getDefaultSharedPreferences(this).getString("user_name", "User"));
-
         rulesView = findViewById(R.id.notesView) ;
         ruleItemAdapter = new RuleItemAdapter(this, db.getRules());
         rulesView.setAdapter(ruleItemAdapter);
@@ -326,7 +309,7 @@ public class MenuActivity extends AppCompatActivity
             TextView appName = view.findViewById(R.id.ruleAppName);
 
             Rule rule =  rules.get(i);
-            ruleName.setText(rule.getName());
+            ruleName.setText(rule.getName() + " " + rule.getID());
             beaconName.setText(rule.getBeaconUUID());
             appName.setText(rule.getAppName());
             return view;

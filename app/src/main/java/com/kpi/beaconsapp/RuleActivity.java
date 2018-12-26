@@ -22,11 +22,12 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.kpi.beaconsapp.model.Beacon;
+import com.kpi.beaconsapp.model.DBRuleHandler;
 import com.kpi.beaconsapp.model.DataBaseConnector;
-import com.kpi.beaconsapp.model.DataBaseEmulator;
-import com.kpi.beaconsapp.model.Note;
+//import com.kpi.beaconsapp.model.DataBaseEmulator;
+//import com.kpi.beaconsapp.model.Note;
 import com.kpi.beaconsapp.model.Rule;
-import com.kpi.beaconsapp.select.beacons.ListViewWithCheckboxActivity;
+//import com.kpi.beaconsapp.select.beacons.ListViewWithCheckboxActivity;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -34,7 +35,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class RuleActivity extends AppCompatActivity {
-    DataBaseConnector db = DataBaseEmulator.getInstance();
+    DataBaseConnector db = DBRuleHandler.getInstance();
     int rule_id;
     Rule rule;
     Beacon beacon;
