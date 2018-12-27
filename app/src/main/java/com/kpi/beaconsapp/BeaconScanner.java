@@ -8,7 +8,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.kpi.beaconsapp.model.DBRuleHandler;
-//import com.kpi.beaconsapp.model.DataBaseEmulator;
 import com.kpi.beaconsapp.model.Rule;
 
 import org.altbeacon.beacon.Beacon;
@@ -41,14 +40,12 @@ public class BeaconScanner extends Service implements BeaconConsumer {
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
-
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
     }
-
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -62,7 +59,6 @@ public class BeaconScanner extends Service implements BeaconConsumer {
         beaconManager.setForegroundScanPeriod(1000L);
         beaconManager.setBackgroundBetweenScanPeriod(1L);
         beaconManager.setForegroundBetweenScanPeriod(1L);
-//        beaconManager.
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -74,17 +70,26 @@ public class BeaconScanner extends Service implements BeaconConsumer {
             public void didRangeBeaconsInRegion(Collection<Beacon> collection, Region region) {
                 Log.i(TAG, "collection size  " + collection.size());
 
-//                Date now= Calendar.getInstance().getTime() ;
-
                 Long now = System.currentTimeMillis();
                 Log.d("NOWWWWWWW", Long.toString(now));
 
                 double maxDist = 2.5;
 
                 Log.d("COUNNNNNNNTTBBEEFFOOREE", "" + visits.size());
+                ArrayList<com.kpi.beaconsapp.model.Beacon> dbBeacons = DBRuleHandler.getInstance().getBeacons();
+                ArrayList<String> uuids = new ArrayList<>();
+                for (com.kpi.beaconsapp.model.Beacon beacon: dbBeacons){
+                    uuids.add(beacon.getCode());
+                }
 
 
                 for (org.altbeacon.beacon.Beacon oneBeacon : collection) {
+                    if (!uuids.contains(oneBeacon.getId1().toUuid().toString())){
+                        Toast.makeText(getApplicationContext(), "New beacon found", Toast.LENGTH_SHORT).show();
+                        com.kpi.beaconsapp.model.Beacon beacon = new com.kpi.beaconsapp.model.Beacon(0, "New beacon", "", oneBeacon.getId1().toUuid().toString());
+                        DBRuleHandler.getInstance().addBeacon(beacon);
+                    }
+
                     Toast.makeText(getApplicationContext(), "" + oneBeacon.getId1().toUuid().toString() + " at " + oneBeacon.getDistance(), Toast.LENGTH_SHORT).show();
                     Log.i(TAG, "!!!!!!!!!!FOUND " + oneBeacon.getId1().toUuid().toString() + " at " + oneBeacon.getDistance());
                     if (!rangedBeacons.contains(oneBeacon) && oneBeacon.getDistance() < maxDist) {
@@ -92,24 +97,11 @@ public class BeaconScanner extends Service implements BeaconConsumer {
                         visits.put(oneBeacon, now);
 
                         Log.i(TAG, "oneBeacon.getId1().toUuid().toString():  " + oneBeacon.getId1().toUuid().toString());
-                        showNotifications(oneBeacon.getId1().toUuid().toString());
+                        processBeacon(oneBeacon.getId1().toUuid().toString());
                         rangedBeacons.add(oneBeacon);
                     } else if (oneBeacon.getDistance() > maxDist) {
                         rangedBeacons.remove(oneBeacon);
-
-//                        rangedBeacons.remove(oneBeacon);
-//                        Log.i(TAG, "rangedBeacons size  " + rangedBeacons.size());
                     }
-
-//                    if(visits.containsKey(oneBeacon)){
-//                        Long diff = now - visits.get(oneBeacon);
-//                        Log.d("DDIIIIIIIIIIFFFFFFFF", Long.toString(now));
-//
-//                        if(diff > 10000) {
-//                            visits.remove(oneBeacon);
-//                            rangedBeacons.remove(oneBeacon);
-//                        }
-//                    }
                 }
 
                 ArrayList<Beacon> delete = new ArrayList<>();
@@ -123,17 +115,14 @@ public class BeaconScanner extends Service implements BeaconConsumer {
 
                         if (diff > 20000) {
                             delete.add(visit.getKey());
-//                            visits.remove(visit.getKey());
                             rangedBeacons.remove(visit.getKey());
                         }
                     }
                 }
-
                 for (Beacon beacon :
                         delete) {
                     visits.remove(beacon);
                 }
-
                 Log.d("COUNNNNNNNTT", "" + visits.size());
             }
         });
@@ -182,11 +171,7 @@ public class BeaconScanner extends Service implements BeaconConsumer {
         beaconManager.unbind(this);
     }
 
-//    private void showToast(String code){
-//        Toast.makeText(getApplicationContext(), "sfdfs", Toast.LENGTH_LONG).show();
-//    }
-
-    private void showNotifications(String beaconCode) {
+    private void processBeacon(String beaconCode) {
 
         for (Rule rule : DBRuleHandler.getInstance().getRules()) {
             if (rule.getBeaconUUID().equals(beaconCode)) {

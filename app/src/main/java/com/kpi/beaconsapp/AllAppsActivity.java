@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,7 +22,6 @@ import com.kpi.beaconsapp.model.DBRuleHandler;
 import com.kpi.beaconsapp.model.Rule;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -49,7 +47,6 @@ public class AllAppsActivity extends AppCompatActivity {
             }
         }
         apps.sort(String::compareTo);
-
 
         Log.i("AllAppsActivity","" +apps.size() + " apps added");
         AllAppsActivity.AppItemAdapter appItemAdapter = new AllAppsActivity.AppItemAdapter(this, apps);
@@ -78,11 +75,9 @@ public class AllAppsActivity extends AppCompatActivity {
             });
         }
 
-
     }
 
     class AppItemAdapter extends BaseAdapter {
-
         private LayoutInflater layoutInflater;
         private ArrayList<String> apps;
 
@@ -90,7 +85,6 @@ public class AllAppsActivity extends AppCompatActivity {
             this.layoutInflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
             this.apps = apps;
         }
-
 
         @Override
         public int getCount() {

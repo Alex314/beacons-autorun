@@ -24,11 +24,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.kpi.beaconsapp.model.DBRuleHandler;
 import com.kpi.beaconsapp.model.DataBaseConnector;
@@ -43,20 +41,13 @@ import java.util.ArrayList;
 
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-    public static String PACKAGE_NAME;
     public static Context CONTEXT;
-
 
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
     static DataBaseConnector db;
     protected static final String TAG = "MonitoringActivity";
-//    ListView notesView;
     ListView rulesView;
-//    NoteItemAdapter noteItemAdapter;
-//    BeaconItemAdapter beaconItemAdapter;
     RuleItemAdapter ruleItemAdapter;
-//    int lastRule;
     SharedPreferences preferences;
 
     private String path;
@@ -101,17 +92,10 @@ public class MenuActivity extends AppCompatActivity
         startActivity();
 
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent chooseBeacon = new Intent(getApplicationContext(), AllBeaconsActivity.class);
-                chooseBeacon.putExtra("com.kpi.beaconsapp.action", "addRule");
-                startActivity(chooseBeacon);
-//                lastNote = 0;
-//                Intent showNoteDetail = new Intent(getApplicationContext(), NoteDetailsActivity.class);
-//                showNoteDetail.putExtra("com.kpi.beaconsapp.NOTE_ID", db.getNewNoteId());
-//                startActivity(showNoteDetail);
-            }
+        fab.setOnClickListener(view -> {
+            Intent chooseBeacon = new Intent(getApplicationContext(), AllBeaconsActivity.class);
+            chooseBeacon.putExtra("com.kpi.beaconsapp.action", "addRule");
+            startActivity(chooseBeacon);
         });
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -123,20 +107,14 @@ public class MenuActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-//        TextView userNameView = navigationView.getHeaderView(0).findViewById(R.id.user_name_view);
-//        userNameView.setText(preferences.getString("user_name", "User"));
-
         rulesView = findViewById(R.id.notesView) ;
         ruleItemAdapter = new RuleItemAdapter(this, db.getRules());
         rulesView.setAdapter(ruleItemAdapter);
 
-        rulesView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent editRule = new Intent(getApplicationContext(), NoteDetailsActivity.class);
-                editRule.putExtra("com.kpi.beaconsapp.ruleid", i);
-                startActivity(editRule);
-            }
+        rulesView.setOnItemClickListener((adapterView, view, i, l) -> {
+            Intent editRule = new Intent(getApplicationContext(), RuleEditActivity.class);
+            editRule.putExtra("com.kpi.beaconsapp.ruleid", i);
+            startActivity(editRule);
         });
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -146,16 +124,12 @@ public class MenuActivity extends AppCompatActivity
                 builder.setTitle("This app needs location access");
                 builder.setMessage("Please grant location access so this app can detect beacons.");
                 builder.setPositiveButton(android.R.string.ok, null);
-                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-
-                    public void onDismiss(DialogInterface dialog) {
-                        requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
-                    }
-                });
+                builder.setOnDismissListener(dialog -> requestPermissions(
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                        PERMISSION_REQUEST_COARSE_LOCATION));
                 builder.show();
             }
         }
-
 
         if(preferences.getBoolean("beacon_scanning", false)){
             Thread thread = new Thread() {
@@ -235,10 +209,9 @@ public class MenuActivity extends AppCompatActivity
         return true;
     }
 
-    private void showToast(String message){
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-    }
-
+//    private void showToast(String message){
+//        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+//    }
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -246,7 +219,6 @@ public class MenuActivity extends AppCompatActivity
         ruleItemAdapter = new RuleItemAdapter(this, db.getRules());
         rulesView.setAdapter(ruleItemAdapter);
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -261,11 +233,8 @@ public class MenuActivity extends AppCompatActivity
                     builder.setMessage("Since location access has not been granted, this app will not be able to discover beacons when in the background.");
                     builder.setPositiveButton(android.R.string.ok, null);
                     builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-
                         @Override
-                        public void onDismiss(DialogInterface dialog) {
-                        }
-
+                        public void onDismiss(DialogInterface dialog) { }
                     });
                     builder.show();
                 }
@@ -274,7 +243,6 @@ public class MenuActivity extends AppCompatActivity
     }
 
     class RuleItemAdapter extends BaseAdapter {
-
         private LayoutInflater layoutInflater;
         private ArrayList<Rule> rules;
 
@@ -282,7 +250,6 @@ public class MenuActivity extends AppCompatActivity
             this.layoutInflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
             this.rules = rules;
         }
-
 
         @Override
         public int getCount() {
@@ -309,7 +276,7 @@ public class MenuActivity extends AppCompatActivity
             TextView appName = view.findViewById(R.id.ruleAppName);
 
             Rule rule =  rules.get(i);
-            ruleName.setText(rule.getName() + " " + rule.getID());
+            ruleName.setText(rule.getName());
             beaconName.setText(rule.getBeaconUUID());
             appName.setText(rule.getAppName());
             return view;

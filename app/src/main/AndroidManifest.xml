@@ -18,11 +18,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".NoteDetailsActivity"
-            android:label="@string/edit_note"
-            android:parentActivityName=".MenuActivity" />
-        <activity
-            android:name=".RuleActivity"
+            android:name=".RuleEditActivity"
             android:label="@string/edit_note"
             android:parentActivityName=".MenuActivity" />
         <activity
@@ -35,10 +31,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".select.beacons.ListViewWithCheckboxActivity"
-            android:label="@string/all_beacons"
-            android:parentActivityName=".NoteDetailsActivity" />
         <activity
             android:name=".AllBeaconsActivity"
             android:label="@string/all_beacons"

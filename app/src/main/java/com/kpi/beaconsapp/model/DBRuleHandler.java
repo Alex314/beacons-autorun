@@ -39,11 +39,6 @@ public class DBRuleHandler extends SQLiteOpenHelper implements DataBaseConnector
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-
-
-//    private ArrayList<Note> notes = new ArrayList<>();
-    private ArrayList<Beacon> beacons = new ArrayList<>();
-
     private static DBRuleHandler instance;
 
     public static DBRuleHandler getInstance(){
@@ -55,29 +50,6 @@ public class DBRuleHandler extends SQLiteOpenHelper implements DataBaseConnector
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-//        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_RULES + "("
-//                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_BEACON_UUID + " TEXT,"
-//                + KEY_APP_NAME + " TEXT," + KEY_APP_PACKAGE_NAME + " TEXT" + ");";
-//
-//        String CREATE_BEACONS_TABLE = "CREATE TABLE " + TABLE_BEACONS + "("
-//                + KEY_UUID + "TEXT PRIMARY KEY,"
-//                + KEY_BEACON_NAME + "TEXT, " + KEY_BEACON_ADDRESS + " TEXT" + ");";
-//        String CREATE_BEACONS_TABLE = "CREATE TABLE beacons (\n" +
-//                "  uuid  TEXT NOT NULL PRIMARY KEY,\n" +
-//                "  name  TEXT,\n" +
-//                "  desc  TEXT\n" +
-//                ");";
-//
-//        String CREATE_RULES_TABLE = "CREATE TABLE rules (\n" +
-//                "id  INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-//                "beacon_uuid  TEXT NOT NULL,\n" +
-//                "app_package_name  TEXT NOT NULL,\n" +
-//                "app_name  TEXT NOT NULL,\n" +
-//                "distance_limit  REAL NOT NULL,\n" +
-//                "FOREIGN KEY(beacon_uuid) REFERENCES beacons(uuid) on update cascade on delete cascade\n" +
-//                ");";
-//
-//        db.execSQL(CREATE_BEACONS_TABLE + CREATE_RULES_TABLE);
     }
 
     @Override
@@ -89,21 +61,10 @@ public class DBRuleHandler extends SQLiteOpenHelper implements DataBaseConnector
         onCreate(db);
     }
 
-//    @Override
-//    public ArrayList<Note> getNotes() {
-//        return notes;
-//    }
-
     @Override
     public ArrayList<Rule> getRules() {
         return getAllRules();
     }
-
-//    @Override
-//    public Note getNote(int i) {
-//        if(i < notes.size()) return notes.get(i);
-//        else return null;
-//    }
 
     public void addRule(Rule rule) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -115,7 +76,6 @@ public class DBRuleHandler extends SQLiteOpenHelper implements DataBaseConnector
         values.put(KEY_DISTANCE_LIMIT, rule.getDistance()); // Rule app full name
         values.put(KEY_RULE_NAME, rule.getName());
 
-        // Inserting Row
         db.insert(TABLE_RULES, null, values);
         db.close(); // Closing database connection
     }
@@ -133,25 +93,9 @@ public class DBRuleHandler extends SQLiteOpenHelper implements DataBaseConnector
         db.close(); // Closing database connection
     }
 
-//    @Override
-//    public int getNewNoteId() {
-//        notes.add(new Note());
-//        return notes.size() - 1;
-//    }
-
-//    @Override
-//    public void editNote(int id, String name, String text, String color, String[] beaconsCodes) {
-//        throw new RuntimeException("Not implemented");
-//    }
-
-//    @Override
-//    public void deleteNote(int id) {
-//        notes.remove(id);
-//    }
-
     @Override
     public ArrayList<Beacon> getBeacons() {
-        ArrayList<Beacon> shopList = new ArrayList<Beacon>();
+        ArrayList<Beacon> beacons = new ArrayList<Beacon>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_BEACONS;
 
@@ -161,24 +105,16 @@ public class DBRuleHandler extends SQLiteOpenHelper implements DataBaseConnector
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Beacon rule = new Beacon(
+                Beacon b = new Beacon(
                         0,
                         cursor.getString(1),
                         cursor.getString(2),
                         cursor.getString(0)
                 );
-                // Adding contact to list
-                shopList.add(rule);
+                beacons.add(b);
             } while (cursor.moveToNext());
         }
-
-        // return contact list
-        return shopList;
-    }
-
-    @Override
-    public void setBeacons(ArrayList<Beacon> beacons) {
-        this.beacons = beacons;
+        return beacons;
     }
 
     public Rule getRule(int id) {
@@ -201,9 +137,8 @@ public class DBRuleHandler extends SQLiteOpenHelper implements DataBaseConnector
         return rule;
     }
 
-    // Getting All Shops
     public ArrayList<Rule> getAllRules() {
-        ArrayList<Rule> shopList = new ArrayList<Rule>();
+        ArrayList<Rule> rules = new ArrayList<Rule>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_RULES;
 
@@ -221,23 +156,18 @@ public class DBRuleHandler extends SQLiteOpenHelper implements DataBaseConnector
                         cursor.getString(2),
                         Double.parseDouble(cursor.getString(4))
                 );
-                // Adding contact to list
-                shopList.add(rule);
+                rules.add(rule);
             } while (cursor.moveToNext());
         }
-
-        // return contact list
-        return shopList;
+        return rules;
     }
 
-    // Getting shops Count
     public int getRulesCount() {
         String countQuery = "SELECT  * FROM " + TABLE_RULES;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         cursor.close();
 
-        // return count
         return cursor.getCount();
     }
 
@@ -256,7 +186,6 @@ public class DBRuleHandler extends SQLiteOpenHelper implements DataBaseConnector
                 new String[]{String.valueOf(rule.getID())});
     }
 
-    // Deleting a shop
     public void deleteRule(Rule rule) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_RULES, KEY_ID + " = ?",
@@ -264,4 +193,3 @@ public class DBRuleHandler extends SQLiteOpenHelper implements DataBaseConnector
         db.close();
     }
 }
-

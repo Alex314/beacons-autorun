@@ -8,8 +8,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -68,7 +66,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
         // Trigger the listener immediately with the preference's
         // current value.
-//        System.out.println("PREFERENCES!!!!!! " + preference.getContext());
         sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
                 PreferenceManager
                         .getDefaultSharedPreferences(preference.getContext())
@@ -81,19 +78,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         setupActionBar();
         GeneralPreferenceFragment g =  new GeneralPreferenceFragment();
         getFragmentManager().beginTransaction().replace(android.R.id.content, g).commit();
-
-//        System.out.println("Switch beacon_scanning ="+(g.getView()==null));
-//
-//        if(g.getView()!= null){
-//            Switch onOffSwitch = g.getView().findViewById(R.id.beacon_scanning);
-//            onOffSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//                @Override
-//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                    System.out.println("Switch beacon_scanning ="+isChecked);
-//                }
-//            });
-//        }
-
     }
 
     /**
@@ -130,6 +114,4 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
         return super.onMenuItemSelected(featureId, item);
     }
-
-
 }

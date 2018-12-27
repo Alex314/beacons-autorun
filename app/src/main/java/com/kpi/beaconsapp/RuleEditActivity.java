@@ -3,7 +3,6 @@ package com.kpi.beaconsapp;
 import android.os.Bundle;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -11,8 +10,7 @@ import com.kpi.beaconsapp.model.DBRuleHandler;
 import com.kpi.beaconsapp.model.Rule;
 
 
-public class NoteDetailsActivity extends AppCompatActivity {
-
+public class RuleEditActivity extends AppCompatActivity {
     DBRuleHandler db = DBRuleHandler.getInstance();
     int ruleId;
     Rule rule;
@@ -26,7 +24,7 @@ public class NoteDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_note_details);
+        setContentView(R.layout.activity_rule_details);
 
         ruleNameView = findViewById(R.id.noteName);
         beaconIDView = findViewById(R.id.noteText);
@@ -44,19 +42,8 @@ public class NoteDetailsActivity extends AppCompatActivity {
         distView.setText(String.valueOf(rule.getDistance()));
         Toast.makeText(getApplicationContext(), String.valueOf(rule.getDistance()), Toast.LENGTH_SHORT).show();
 
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveRule();
-            }
-        });
-
-        remove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                removeRule();
-            }
-        });
+        save.setOnClickListener(v -> saveRule());
+        remove.setOnClickListener(v -> removeRule());
     }
 
     public void saveRule(){
@@ -81,6 +68,4 @@ public class NoteDetailsActivity extends AppCompatActivity {
         db.deleteRule(rule);
         finish();
     }
-
 }
-
